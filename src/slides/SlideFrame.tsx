@@ -73,20 +73,29 @@ export function SlideFrame({ slides }: Props) {
   }, []);
 
   return (
-    <main className="deck-shell" ref={deckRef}>
-      {slides.map((slide, index) => (
-        <article
-          className={`slide ${slide.tone === 'dark' ? 'dark' : ''}`}
-          aria-label={`${index + 1}. ${slide.title}`}
-          key={slide.title}
-          data-slide-index={index}
-        >
-          <BrandLockup dark={slide.tone === 'dark'} />
-          <SlidePrimitive slide={slide} fragmentStep={getFragmentCount(slide)} />
-          <footer className="slide-count">{index + 1} / {slides.length}</footer>
-        </article>
-      ))}
-    </main>
+    <>
+      <div className="orientation-warning" role="alert" aria-live="polite">
+        <div className="orientation-warning-card">
+          <strong>Rotate to landscape</strong>
+          <p>This deck uses one fixed 16:9 slide layout across devices. View it in landscape.</p>
+        </div>
+      </div>
+
+      <main className="deck-shell" ref={deckRef}>
+        {slides.map((slide, index) => (
+          <article
+            className={`slide ${slide.tone === 'dark' ? 'dark' : ''}`}
+            aria-label={`${index + 1}. ${slide.title}`}
+            key={slide.title}
+            data-slide-index={index}
+          >
+            <BrandLockup dark={slide.tone === 'dark'} />
+            <SlidePrimitive slide={slide} fragmentStep={getFragmentCount(slide)} />
+            <footer className="slide-count">{index + 1} / {slides.length}</footer>
+          </article>
+        ))}
+      </main>
+    </>
   );
 }
 

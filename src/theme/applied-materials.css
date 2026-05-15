@@ -88,6 +88,30 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--am-yellow); out
   background: var(--am-dark-blue);
 }
 
+.orientation-warning {
+  display: none;
+}
+
+.orientation-warning-card {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: rgb(15 72 128 / 0.9);
+}
+
+.orientation-warning-card strong {
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.orientation-warning-card p {
+  margin: 0;
+  color: rgb(255 255 255 / 0.82);
+  line-height: 1.45;
+}
+
 .brand-lockup {
   position: absolute !important;
   top: clamp(1.25rem, 2.5vw, 2.5rem);
@@ -1225,34 +1249,29 @@ li + li { margin-top: 0.75rem; }
 }
 .dark .slide-count { color: rgb(255 255 255 / 0.72); }
 
-@media (max-width: 900px) {
-  .deck-shell { padding: 0; }
-  .slide { width: 100%; min-height: 100svh; aspect-ratio: auto; margin: 0; border: 0; box-shadow: none; padding: 1.25rem 1.25rem 4rem; overflow: visible; }
-  .metric-grid,
-  .quote-map,
-  .decision-funnel,
-  .research-hub,
-  .pipeline-diagram,
-  .research-loop,
-  .clue-trail,
-  .architecture-split,
-  .moat-diagram,
-  .impact-dashboard,
-  .rag-failure .pipeline-diagram { grid-template-columns: 1fr; }
-  .title-lockup { align-items: flex-start; }
-  .research-hub::before, .pipeline-step::after, .clue-trail::before { display: none; }
-  .research-loop strong,
-  .case-ledger,
-  .case-answer,
-  .research-hub > strong,
-  .research-hub .spoke-card:nth-of-type(n),
-  .research-hub small { grid-column: auto; grid-row: auto; width: auto; justify-self: stretch; }
+@media (max-width: 900px) and (orientation: portrait) {
+  .deck-shell {
+    display: none;
+  }
+
+  .orientation-warning {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: max(1.5rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left));
+    background: #0b1220;
+    color: white;
+    text-align: center;
+  }
 }
 
 @media print {
   @page { size: 16in 9in; margin: 0; }
   * { animation: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   body { background: white; }
+  .orientation-warning { display: none !important; }
   .deck-shell { height: auto; overflow: visible; padding: 0; }
   .slide { width: 16in; height: 9in; page-break-after: always; border: 0; box-shadow: none; }
   .knowledge-shards span:not(.visible),
