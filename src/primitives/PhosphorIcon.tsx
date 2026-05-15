@@ -56,7 +56,9 @@ const ICON_CLASS: Record<StoryIcon, string> = {
 export const ICON_RULES = [
   'Use icons as semantic cueing, never decoration.',
   'One dominant icon per slide; repeat icons only to clarify a sequence or category.',
-  'Prefer bold/fill for key signals, regular/light for secondary labels, duotone for hero moments.',
+  'Match icon weight to the surrounding visual weight, not just importance.',
+  'Use fill for dominant slide anchors and high-emphasis signals; use bold for supporting semantic icons.',
+  'Avoid regular, light, thin, and duotone in this deck unless a slide explicitly needs a softer illustrative effect.',
   'Style icons only with font-size and color; Phosphor owns font-family, weight, and pseudo-elements.',
 ] as const;
 

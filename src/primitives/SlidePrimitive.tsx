@@ -169,7 +169,7 @@ function FragmentedQuote({ slide, fragmentStep }: Props) {
         <div className="knowledge-shards">
           {content.fragments.map((item, index) => (
             <span className={isVisible(index, fragmentStep)} key={item.label}>
-              {item.icon && <PhosphorIcon icon={item.icon} weight="regular" className="knowledge-shard-icon" />}
+              {item.icon && <PhosphorIcon icon={item.icon} weight="bold" className="knowledge-shard-icon" />}
               <strong>{item.label}</strong>
             </span>
           ))}

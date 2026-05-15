@@ -6,7 +6,7 @@ export const deck: Slide[] = [
     kind: "hero",
     tone: "dark",
     icon: "code",
-    iconWeight: "duotone",
+    iconWeight: "fill",
     title: "Reverse Engineering 180M Lines of Code",
     subtitle: "Ofri Wolfus · Applied Materials · GeekTime Code 2026",
     content: {
@@ -268,7 +268,7 @@ export const deck: Slide[] = [
     kind: "closingCta",
     tone: "dark",
     icon: "community",
-    iconWeight: "duotone",
+    iconWeight: "fill",
     title: "Join Us",
     content: {
       links: [
