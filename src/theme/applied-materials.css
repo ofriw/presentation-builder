@@ -75,7 +75,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--am-yellow); out
   background: var(--surface);
 }
 
-
 .slide.dark {
   color: white;
   background: var(--am-dark-blue);
@@ -1263,10 +1262,11 @@ li + li { margin-top: 0.75rem; }
 @media print {
   @page { size: 16in 9in; margin: 0; }
   * { animation: none !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  body { background: white; }
+  html, body, #root { height: auto; }
+  body { background: white; overflow: visible; }
   .orientation-warning { display: none !important; }
-  .deck-shell { height: auto; overflow: visible; padding: 0; }
-  .slide { width: 16in; height: 9in; page-break-after: always; border: 0; box-shadow: none; }
+  .deck-shell { display: block; height: auto; overflow: visible; scroll-snap-type: none; background: white; }
+  .slide { width: 16in; height: 9in; min-height: 0; max-width: none; break-after: page; }
   .knowledge-shards span:not(.visible),
   .filter:not(.visible),
   .spoke-card:not(.visible),
