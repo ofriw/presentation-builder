@@ -256,25 +256,24 @@
 ```
 ┌───────────────────────────────────────────────────────────┐
 │                                                           │
-│              SCALING LOCAL VECTOR SEARCH                  │
+│       FITTING CLOUD-SCALE SEARCH INTO A LAPTOP            │
 │                                                           │
-│   ChunkHound is LOCAL FIRST.                              │
-│   Your code never leaves your laptop.                     │
+│     ┌────────────────────┐      →      ┌──────────────┐   │
+│     │  Cloud vector DB   │             │ dev laptop   │   │
+│     │  assumptions       │             │ local-first  │   │
+│     │  millions vectors  │             │ code stays   │   │
+│     └────────────────────┘             │ local        │   │
+│                                        │              │   │
+│                                        │ DuckDB       │   │
+│                                        │ metadata     │   │
+│                                        │ chunks       │   │
+│                                        │              │   │
+│                                        │ semantic →   │   │
+│                                        │ USearch      │   │
+│                                        │ shards       │   │
+│                                        └──────────────┘   │
 │                                                           │
-│   ┌───────────────────────────────────────────────────┐   │
-│   │  Problem: Nobody builds local vector DBs          │   │
-│   │  for millions of vectors.                         │   │
-│   │                                                   │   │
-│   │  This is usually a cloud problem.                 │   │
-│   │  We had to solve it on a dev laptop.              │   │
-│   └───────────────────────────────────────────────────┘   │
-│                                                           │
-│   ┌───────────────────────────────────────────────────┐   │
-│   │  Solution:                                        │   │
-│   │  • DuckDB as source of truth (metadata, chunks)   │   │
-│   │  • Sharded vector index built on USearch          │   │
-│   │  • Decoupled — semantic search doesn't touch DB   │   │
-│   └───────────────────────────────────────────────────┘   │
+│          millions of lines · local · private · offline    │
 │                                                           │
 └───────────────────────────────────────────────────────────┘
 ```

@@ -26,7 +26,9 @@ const ICON_CLASS: Record<StoryIcon, string> = {
   architecture: 'ph-graph',
   code: 'ph-code',
   community: 'ph-users-three',
+  cubes: 'ph-cubes',
   database: 'ph-database',
+  hardDrives: 'ph-hard-drives',
   decision: 'ph-funnel',
   entryPoint: 'ph-map-pin',
   evidence: 'ph-seal-check',
@@ -50,6 +52,7 @@ const ICON_CLASS: Record<StoryIcon, string> = {
   sequence: 'ph-arrows-clockwise',
   smileyDead: 'ph-smiley-x-eyes',
   spark: 'ph-sparkle',
+  table: 'ph-table',
   warning: 'ph-warning',
 };
 

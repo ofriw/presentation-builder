@@ -26,6 +26,7 @@ export function SlidePrimitive({ slide, fragmentStep }: Props) {
     case 'pipelineFailure': return <PipelineFailure slide={slide} fragmentStep={fragmentStep} />;
     case 'iterativeLoop': return <IterativeLoop slide={slide} fragmentStep={fragmentStep} />;
     case 'parallelResearch': return <ParallelResearch slide={slide} fragmentStep={fragmentStep} />;
+    case 'localVectorBreakthrough': return <LocalVectorBreakthrough slide={slide} />;
     case 'architectureSplit': return <ArchitectureSplit slide={slide} />;
     case 'impactDashboard': return <ImpactDashboard slide={slide} />;
     case 'principleContrast': return <PrincipleContrast slide={slide} />;
@@ -287,15 +288,84 @@ function ParallelResearch({ slide, fragmentStep }: Props) {
     <>
       <Header slide={slide} />
       <div className="research-hub">
-        {content.hub && <strong>{content.hub}<small>spawn · research · return facts</small></strong>}
+        {content.hub && <strong>{content.hub}{content.target && <small>{content.target}</small>}</strong>}
         {content.spokes.map((spoke, index) => <article className={`spoke-card ${isVisible(index, fragmentStep)}`} key={spoke.title}>{spoke.icon && <PhosphorIcon icon={spoke.icon} weight="bold" />}<h3>{spoke.title}</h3><p>{spoke.caption}</p></article>)}
-        {content.target && <small>{content.target}</small>}
       </div>
       {content.powerUpSequence && (
         <div className="power-up-strip" aria-label="Power-up sequence example">
-          {content.powerUpSequence.split('→').map((step) => <span key={step.trim()}>{step.trim()}</span>)}
+          <b>Reconstructed power-up sequence</b>
+          <div>
+            {content.powerUpSequence.split('→').map((step) => <span key={step.trim()}>{step.trim()}</span>)}
+          </div>
         </div>
       )}
+    </>
+  );
+}
+
+function LocalVectorBreakthrough({ slide }: { slide: Slide }) {
+  const content = slide.content as {
+    cloud: string;
+    boundary: string;
+    pressure: string[];
+    source: { title: string; caption: string; icon?: StoryIcon };
+    index: { title: string; shards: string[]; icon?: StoryIcon };
+    bypass: string;
+    result: string;
+  };
+
+  return (
+    <>
+      <Header slide={slide} />
+      <div className="local-vector-story" aria-label="Cloud-scale vector database assumptions constrained inside a developer laptop">
+        <section className="cloud-assumption">
+          <svg className="cloud-shape" viewBox="0 0 390 223" aria-hidden="true" focusable="false">
+            <path className="cloud-core" d="M47 168h267c36 0 60-22 60-54 0-33-28-58-69-58-15-30-49-49-90-49-49 0-90 27-106 67-41 1-73 25-73 58 0 14 5 25 11 36z" />
+            <path className="cloud-outline" d="M47 168h267c36 0 60-22 60-54 0-33-28-58-69-58-15-30-49-49-90-49-49 0-90 27-106 67-41 1-73 25-73 58 0 14 5 25 11 36z" />
+            <g className="cloud-vector-db" transform="translate(-11 -4.5)">
+              <path className="db-body" d="M159 94v44c0 8 21 14 47 14s47-6 47-14V94z" />
+              <ellipse className="db-cap" cx="206" cy="94" rx="47" ry="14" />
+              <path className="db-slice" d="M161 114.65 L162.7 116.07 L164.88 117.41 L167.5 118.65 L170.53 119.8 L173.95 120.84 L177.71 121.77 L181.8 122.57 L186.18 123.24 L190.82 123.78 L195.69 124.18 L200.76 124.42 L206 124.5 L211.24 124.42 L216.31 124.18 L221.18 123.78 L225.82 123.24 L230.2 122.57 L234.29 121.77 L238.05 120.84 L241.47 119.8 L244.5 118.65 L247.12 117.41 L249.3 116.07 L251 114.65 L251 126.65 L249.3 128.07 L247.12 129.41 L244.5 130.65 L241.47 131.8 L238.05 132.84 L234.29 133.77 L230.2 134.57 L225.82 135.24 L221.18 135.78 L216.31 136.18 L211.24 136.42 L206 136.5 L200.76 136.42 L195.69 136.18 L190.82 135.78 L186.18 135.24 L181.8 134.57 L177.71 133.77 L173.95 132.84 L170.53 131.8 L167.5 130.65 L164.88 129.41 L162.7 128.07 L161 126.65 Z" />
+              <path className="db-band" d="M159 109c0 8 21 14 47 14s47-6 47-14" />
+              <path className="db-band" d="M159 124c0 8 21 14 47 14s47-6 47-14" />
+            </g>
+          </svg>
+          <strong>{content.cloud}</strong>
+          <small>millions of vectors</small>
+        </section>
+
+        <div className="compression-arrow" aria-hidden="true">→</div>
+
+        <section className="laptop-boundary">
+          <div className="laptop-screen">
+            <p className="privacy-boundary">{content.boundary}</p>
+            <div className="laptop-load">
+              {content.pressure.map((item) => <span key={item}>{item}</span>)}
+            </div>
+            <div className="local-architecture">
+              <article className="duckdb-node">
+                <b>
+                  {content.source.icon && <PhosphorIcon icon={content.source.icon} weight="regular" className="node-icon" />}
+                  <span>{content.source.title}</span>
+                </b>
+                <small>{content.source.caption}</small>
+              </article>
+              <div className="semantic-lane">
+                <span>{content.bypass}</span>
+              </div>
+              <article className="usearch-node">
+                <b>
+                  {content.index.icon && <PhosphorIcon icon={content.index.icon} weight="light" className="node-icon" />}
+                  <span>{content.index.title}</span>
+                </b>
+                <div>{content.index.shards.map((shard) => <i key={shard}>{shard}</i>)}</div>
+              </article>
+            </div>
+          </div>
+          <div className="laptop-base" aria-hidden="true" />
+          <strong className="local-result">{content.result}</strong>
+        </section>
+      </div>
     </>
   );
 }

@@ -11,6 +11,7 @@ export type StoryIcon =
   | 'failure'
   | 'future'
   | 'hammer'
+  | 'hardDrives'
   | 'impact'
   | 'knowledge'
   | 'ledger'
@@ -28,7 +29,9 @@ export type StoryIcon =
   | 'sequence'
   | 'smileyDead'
   | 'spark'
-  | 'warning';
+  | 'table'
+  | 'warning'
+  | 'cubes';
 
 export type PrimitiveKind =
   | 'hero'
@@ -39,6 +42,7 @@ export type PrimitiveKind =
   | 'pipelineFailure'
   | 'iterativeLoop'
   | 'parallelResearch'
+  | 'localVectorBreakthrough'
   | 'architectureSplit'
   | 'impactDashboard'
   | 'principleContrast'
