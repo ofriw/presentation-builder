@@ -77,6 +77,12 @@ export interface Card {
   items?: string[];
 }
 
+export interface ProofItem {
+  label: string;
+  icon?: string;
+  hideLabel?: boolean;
+}
+
 export interface Step {
   id?: string;
   label: string;
