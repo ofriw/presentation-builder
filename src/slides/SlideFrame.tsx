@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import amatLogo from '../../logo.svg?url';
 import amatLogoInverted from '../../logo-inverted.svg?url';
 import chunkHoundLogo from '../../wordmark-centered.svg?url';
@@ -12,6 +12,91 @@ interface Props {
 
 export function SlideFrame({ slides }: Props) {
   const deckRef = useRef<HTMLElement>(null);
+  const landscapeRef = useRef(false);
+  const enterFSRef = useRef<() => Promise<void>>(async () => {});
+  const [showFSPrompt, setShowFSPrompt] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // On landscape, enter fullscreen to hide Safari chrome
+  useEffect(() => {
+    const el = deckRef.current;
+    if (!el) return;
+
+    let promptTimer: ReturnType<typeof setTimeout> | null = null;
+    landscapeRef.current = window.innerWidth > window.innerHeight;
+
+    async function enterFullscreen() {
+      if (document.fullscreenElement || (document as any).webkitFullscreenElement) return;
+      try {
+        const d = document.documentElement;
+        if (d.requestFullscreen) {
+          await d.requestFullscreen({ navigationUI: 'hide' } as any);
+        } else if ((d as any).webkitRequestFullScreen) {
+          await (d as any).webkitRequestFullScreen();
+        }
+      } catch {
+        // Fullscreen denied or unsupported — graceful fallback
+      }
+    }
+    enterFSRef.current = enterFullscreen;
+
+    function exitFullscreen() {
+      try {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if ((document as any).webkitExitFullScreen) (document as any).webkitExitFullScreen();
+      } catch { /* ignore */ }
+    }
+
+    function showPrompt() {
+      if (document.fullscreenElement || (document as any).webkitFullscreenElement) return;
+      setShowFSPrompt(true);
+      if (promptTimer) clearTimeout(promptTimer);
+      promptTimer = setTimeout(() => setShowFSPrompt(false), 6000);
+    }
+
+    function onOrientationChange() {
+      setTimeout(() => {
+        landscapeRef.current = window.innerWidth > window.innerHeight;
+        if (landscapeRef.current) {
+          showPrompt();
+        } else {
+          exitFullscreen();
+          setShowFSPrompt(false);
+        }
+      }, 300);
+    }
+
+    function onFirstInteraction() {
+      if (landscapeRef.current && !(document.fullscreenElement || (document as any).webkitFullscreenElement)) {
+        enterFullscreen();
+      }
+      setShowFSPrompt(false);
+    }
+
+    function onFSChange() {
+      const fs = !!(document.fullscreenElement || (document as any).webkitFullscreenElement);
+      setIsFullscreen(fs);
+      if (fs) setShowFSPrompt(false);
+    }
+
+    window.addEventListener('orientationchange', onOrientationChange);
+    screen.orientation?.addEventListener('change', onOrientationChange);
+    document.addEventListener('fullscreenchange', onFSChange);
+    document.addEventListener('webkitfullscreenchange', onFSChange);
+    el.addEventListener('pointerdown', onFirstInteraction);
+
+    // Initial check — already in landscape at mount
+    if (landscapeRef.current) showPrompt();
+
+    return () => {
+      window.removeEventListener('orientationchange', onOrientationChange);
+      screen.orientation?.removeEventListener('change', onOrientationChange);
+      document.removeEventListener('fullscreenchange', onFSChange);
+      document.removeEventListener('webkitfullscreenchange', onFSChange);
+      el.removeEventListener('pointerdown', onFirstInteraction);
+      if (promptTimer) clearTimeout(promptTimer);
+    };
+  }, []);
 
   // Broadcast current slide index to presenter window
   useEffect(() => {
@@ -80,6 +165,36 @@ export function SlideFrame({ slides }: Props) {
           <p>This deck uses one fixed 16:9 slide layout across devices. View it in landscape.</p>
         </div>
       </div>
+
+      {showFSPrompt && !isFullscreen && (
+        <button
+          onClick={() => {
+            if (landscapeRef.current) enterFSRef.current();
+            setShowFSPrompt(false);
+          }}
+          style={{
+            position: 'fixed',
+            bottom: 'max(2rem, env(safe-area-inset-bottom, 0px) + 0.5rem)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 100,
+            padding: '0.65rem 1.4rem',
+            border: '1px solid rgb(255 255 255 / 0.2)',
+            borderRadius: '2rem',
+            background: 'rgb(15 72 128 / 0.92)',
+            color: 'white',
+            fontFamily: 'inherit',
+            fontSize: '0.95rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+          }}
+          aria-label="Enter fullscreen"
+        >
+          ⛶ Enter fullscreen
+        </button>
+      )}
 
       <main className="deck-shell" ref={deckRef}>
         {slides.map((slide, index) => (
