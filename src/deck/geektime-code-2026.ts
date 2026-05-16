@@ -312,7 +312,7 @@ export const deck: Slide[] = [
     icon: "future",
     content: {
       boundary: "Local · private · open",
-      outside: ["Public models", "Generic knowledge", "Commodity APIs"],
+      outside: ["Public models", "World knowledge", "Commodity APIs"],
       sources: [
         { label: "code", icon: "code" },
         { label: "commits", icon: "ledger" },
@@ -341,17 +341,22 @@ export const deck: Slide[] = [
     tone: "dark",
     icon: "community",
     iconWeight: "fill",
-    title: "Join Us",
+    title: "Thank You",
+    subtitle: "Questions?",
     content: {
-      links: [
-        {
-          label: "github.com/chunkhound/chunkhound",
-          href: "https://github.com/chunkhound/chunkhound",
-        },
-        { label: "agenticoding.ai", href: "https://agenticoding.ai" },
-      ],
-      prompt: "We'd love your involvement.",
-      rule: "One rule: all code must be AI-generated 😉",
+      contribution: {
+        title: "Contribute to ChunkHound",
+        href: "https://github.com/chunkhound/chunkhound",
+        qrSrc: "chunkhound-github-qr.svg",
+        actions: ["Star the repo", "Fork + contribute", "Join the discussion"],
+        rule: "One rule: 100% AI-generated code",
+      },
+      book: {
+        title: "Agentic Engineering Book",
+        href: "https://agenticoding.ai",
+        caption:
+          "Our open-source playbook for building production software with agents.",
+      },
     },
     notes:
       "אז זו הבקשה שלי. אם אתם עובדים על קודבייס גדול, ישן או מורכב — או אם אתם פשוט סקרנים לראות מה קורה כשבונים תוכנת production כולה עם AI — בואו לתרום. ChunkHound הוא קוד פתוח, ברישיון MIT. Agenticoding.ai הוא קוד פתוח. אנחנו רוצים את המעורבות שלכם.\n\n" +

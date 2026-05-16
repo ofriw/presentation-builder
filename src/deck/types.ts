@@ -90,11 +90,6 @@ export interface Step {
   emphasis?: Emphasis;
 }
 
-export interface LinkItem {
-  label: string;
-  href: string;
-}
-
 export interface PrincipleContrastContent {
   bad: Card;
   good: Card;
@@ -103,9 +98,18 @@ export interface PrincipleContrastContent {
 }
 
 export interface ClosingCtaContent {
-  links: LinkItem[];
-  prompt: string;
-  rule?: string;
+  contribution: {
+    title: string;
+    href: string;
+    qrSrc: string;
+    actions: string[];
+    rule: string;
+  };
+  book: {
+    title: string;
+    href: string;
+    caption: string;
+  };
 }
 
 export interface FragmentedQuoteItem {

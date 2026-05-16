@@ -2,7 +2,6 @@ import type {
   Card,
   ClosingCtaContent,
   FragmentedQuoteContent,
-  LinkItem,
   KnowledgeMoatContent,
   Metric,
   ParallelResearchContent,
@@ -809,22 +808,38 @@ function KnowledgeMoat({ slide }: { slide: Slide }) {
 function ClosingCta({ slide }: { slide: Slide }) {
   const content = slide.content as ClosingCtaContent;
   return (
-    <section className="hero-stage closing">
-      <div className="hero-copy">
+    <section className="closing-stage" aria-label="Closing, questions, and contribution links">
+      <div className="closing-thanks">
+        <span className="context-kicker">Closing keynote</span>
         <h1>{slide.title}</h1>
-        {content.prompt && <p>{content.prompt}</p>}
+        {slide.subtitle && <strong>{slide.subtitle}</strong>}
+        <div className="closing-graph" aria-hidden="true" />
       </div>
-      <div className="links">
-        {content.links.map((link) => (
-          <a href={link.href} key={link.href}>
-            {link.label}
+
+      <aside className="closing-actions">
+        <article className="chunkhound-contribution-card">
+          <div>
+            <span className="context-kicker">Open source</span>
+            <h2>{content.contribution.title}</h2>
+          </div>
+          <a href={content.contribution.href} aria-label="Open the ChunkHound GitHub repository">
+            <img src={content.contribution.qrSrc} alt="QR code for the ChunkHound GitHub repository" />
           </a>
-        ))}
-      </div>
-      {content.rule && <p className="closing-rule">{content.rule}</p>}
-      {slide.subtitle && (
-        <strong className="closing-note">{slide.subtitle}</strong>
-      )}
+          <ul>
+            {content.contribution.actions.map((action) => (
+              <li key={action}>{action}</li>
+            ))}
+          </ul>
+          <p>{content.contribution.rule}</p>
+        </article>
+
+        <article className="agentic-book-card">
+          <span className="context-kicker">Engineering book</span>
+          <h2>{content.book.title}</h2>
+          <p>{content.book.caption}</p>
+          <a href={content.book.href}>{content.book.href.replace("https://", "")}</a>
+        </article>
+      </aside>
     </section>
   );
 }
