@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import amatLogo from '../../logo.svg?url';
 import amatLogoInverted from '../../logo-inverted.svg?url';
 import chunkHoundLogo from '../../wordmark-centered.svg?url';
@@ -10,8 +10,14 @@ interface Props {
   slides: Slide[];
 }
 
+const SLIDE_WIDTH = 1600;
+const SLIDE_HEIGHT = 900;
+
 export function SlideFrame({ slides }: Props) {
   const deckRef = useRef<HTMLElement>(null);
+  const fit = useSlideFit();
+  const stageStyle = { width: fit.width, height: fit.height } satisfies CSSProperties;
+  const slideStyle = { transform: `scale(${fit.scale})` } satisfies CSSProperties;
 
   // Broadcast current slide index to presenter window
   useEffect(() => {
@@ -83,20 +89,51 @@ export function SlideFrame({ slides }: Props) {
 
       <main className="deck-shell" ref={deckRef}>
         {slides.map((slide, index) => (
-          <article
-            className={`slide ${slide.tone === 'dark' ? 'dark' : ''}`}
-            aria-label={`${index + 1}. ${slide.title}`}
+          <section
+            className={`slide-page ${slide.tone === 'dark' ? 'dark' : ''}`}
             key={slide.title}
             data-slide-index={index}
           >
-            <BrandLockup dark={slide.tone === 'dark'} />
-            <SlidePrimitive slide={slide} fragmentStep={getFragmentCount(slide)} />
-            <footer className="slide-count">{index + 1} / {slides.length}</footer>
-          </article>
+            <div className="slide-stage" style={stageStyle}>
+              <article
+                className={`slide ${slide.tone === 'dark' ? 'dark' : ''}`}
+                aria-label={`${index + 1}. ${slide.title}`}
+                style={slideStyle}
+              >
+                <BrandLockup dark={slide.tone === 'dark'} />
+                <SlidePrimitive slide={slide} fragmentStep={getFragmentCount(slide)} />
+                <footer className="slide-count">{index + 1} / {slides.length}</footer>
+              </article>
+            </div>
+          </section>
         ))}
       </main>
     </>
   );
+}
+
+function useSlideFit() {
+  const [fit, setFit] = useState({ scale: 1, width: SLIDE_WIDTH, height: SLIDE_HEIGHT });
+
+  useLayoutEffect(() => {
+    function updateFit() {
+      const viewport = window.visualViewport;
+      const availableWidth = viewport?.width ?? window.innerWidth;
+      const availableHeight = viewport?.height ?? window.innerHeight;
+      const scale = Math.min(availableWidth / SLIDE_WIDTH, availableHeight / SLIDE_HEIGHT);
+      setFit({ scale, width: SLIDE_WIDTH * scale, height: SLIDE_HEIGHT * scale });
+    }
+
+    updateFit();
+    window.addEventListener('resize', updateFit);
+    window.visualViewport?.addEventListener('resize', updateFit);
+    return () => {
+      window.removeEventListener('resize', updateFit);
+      window.visualViewport?.removeEventListener('resize', updateFit);
+    };
+  }, []);
+
+  return fit;
 }
 
 function BrandLockup({ dark }: { dark: boolean }) {
