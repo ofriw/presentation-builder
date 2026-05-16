@@ -3,6 +3,7 @@ import type {
   ClosingCtaContent,
   FragmentedQuoteContent,
   LinkItem,
+  KnowledgeMoatContent,
   Metric,
   ParallelResearchContent,
   PrincipleContrastContent,
@@ -753,18 +754,54 @@ function SignalArrow({
 }
 
 function KnowledgeMoat({ slide }: { slide: Slide }) {
-  const content = slide.content as { layers: string[]; moat: string };
+  const content = slide.content as KnowledgeMoatContent;
   return (
     <>
       <Header slide={slide} />
-      <div className="moat-diagram">
-        <strong>Private knowledge graph</strong>
-        {content.layers.map((layer) => (
-          <span key={layer}>{layer}</span>
-        ))}
-        <em>public model knowledge stops at the boundary</em>
-      </div>
-      {content.moat && <p className="insight">{content.moat}</p>}
+      <section className="private-context-stage" aria-label="Private context boundary">
+        <div className="private-context-map">
+          <aside className="commodity-context" aria-label="Commodity outside context">
+            <span className="context-kicker">Outside the boundary</span>
+            {content.outside.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </aside>
+
+          <article className="context-boundary">
+            <span className="boundary-label">{content.boundary}</span>
+            <h2>Private knowledge graph</h2>
+            <div className="knowledge-source-grid">
+              {content.sources.map((source) => (
+                <span className="knowledge-source" key={source.label}>
+                  <PhosphorIcon icon={source.icon} weight="bold" />
+                  {source.label}
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="agentic-outcome">
+            <span className="context-kicker">Outcome</span>
+            <PhosphorIcon icon="spark" weight="fill" />
+            <strong>Agentic advantage</strong>
+            <small>Answers grounded in your real system.</small>
+          </article>
+        </div>
+
+        <ol className="context-flow" aria-label="Active path from ChunkHound to agentic advantage">
+          {content.flow.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+
+        <div className="adoption-proof" aria-label="Internal adoption proof">
+          {content.proof.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+
+        <p className="insight private-context-insight">{content.insight}</p>
+      </section>
     </>
   );
 }

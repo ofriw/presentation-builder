@@ -306,15 +306,28 @@ export const deck: Slide[] = [
   // ── Slide 11 — The Future Is Private ────────────────────────
   {
     kind: "knowledgeMoat",
+    tone: "dark",
     title: "The Future Is Private",
+    subtitle: "The model is not the moat",
     icon: "future",
     content: {
-      layers: [
+      boundary: "Local · private · open",
+      outside: ["Public models", "Generic knowledge", "Commodity APIs"],
+      sources: [
+        { label: "code", icon: "code" },
+        { label: "commits", icon: "ledger" },
+        { label: "docs", icon: "knowledge" },
+        { label: "specs", icon: "table" },
+        { label: "architecture", icon: "architecture" },
+        { label: "tribal memory", icon: "community" },
+      ],
+      flow: ["ChunkHound", "private knowledge graph", "agentic advantage"],
+      proof: [
         "Training hundreds of devs internally",
         "Claude cowork for management",
         "AI-native DNA transformation",
       ],
-      moat: "In the agentic era, your ability to harness the knowledge you ALREADY HAVE is what sets you apart.",
+      insight: "Your advantage is the knowledge you already have.",
     },
     notes:
       "זו האמונה שלי: בעידן agentic החדש הזה, היתרון התחרותי שלכם הוא לא המודל, לא ה־API key, ולא ספריית הפרומפטים שלכם. זו היכולת שלכם לרתום את הידע שכבר יש לכם. עשרים וארבע שנים של קוד, של זיכרון ארגוני שמוטמע בכל function signature ובכל commit message. זה ה־moat שלכם.\n\n" +

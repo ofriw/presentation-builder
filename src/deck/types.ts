@@ -127,6 +127,20 @@ export interface ParallelResearchContent {
   powerUpSequence?: string;
 }
 
+export interface KnowledgeMoatSource {
+  label: string;
+  icon: StoryIcon;
+}
+
+export interface KnowledgeMoatContent {
+  boundary: string;
+  outside: string[];
+  sources: KnowledgeMoatSource[];
+  flow: string[];
+  proof: string[];
+  insight: string;
+}
+
 export interface SlidePrimitive<TContent = unknown> {
   kind: PrimitiveKind;
   title?: string;
