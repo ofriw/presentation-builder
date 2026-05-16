@@ -283,25 +283,17 @@ export const deck: Slide[] = [
     icon: "spark",
     content: {
       bad: {
-        title: "Garbage in → Garbage out",
+        title: "Weak fundamentals",
         icon: "warning",
-        items: [
-          "Your mistakes propagate 10x faster",
-          "Weak fundamentals crash harder",
-          "Noise scales with speed",
-        ],
+        items: ["vague goals", "hidden assumptions", "no verification"],
       },
       good: {
-        title: "Agents amplify engineers",
-        icon: "spark",
-        items: [
-          "Strong fundamentals → 10x leverage",
-          "Small steps + explicit constraints",
-          "Verification at every stage",
-        ],
+        title: "Strong fundamentals",
+        icon: "architecture",
+        items: ["explicit constraints", "small steps", "system design"],
       },
       insight:
-        "Building ChunkHound with AI taught us how to build software with AI.",
+        "Building ChunkHound with AI taught us the real rule: agents amplify engineering fundamentals.",
       footerLink: "agenticoding.ai",
     },
     notes:

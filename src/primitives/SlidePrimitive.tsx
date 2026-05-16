@@ -646,28 +646,109 @@ function ImpactDashboard({ slide }: { slide: Slide }) {
 
 function PrincipleContrast({ slide }: { slide: Slide }) {
   const content = slide.content as PrincipleContrastContent;
+  const badItems = content.bad.items ?? [];
+  const goodItems = content.good.items ?? [];
+
   return (
     <>
-      <Header slide={slide} />
-      <div className="architecture-split">
-        <List
-          title={content.bad.title}
-          items={content.bad.items ?? []}
-          tone="danger"
-          icon={content.bad.icon ?? "warning"}
-        />
-        <List
-          title={content.good.title}
-          items={content.good.items ?? []}
-          tone="accent"
-          icon={content.good.icon ?? "spark"}
-        />
+      <Header slide={slide} eyebrow="AI does not fix the signal. It scales it." />
+      <div className="amplifier-story" aria-label="Agents amplify the quality of engineering inputs">
+        <div className="amplifier-diagram">
+          <SignalCard
+            className="weak-input"
+            title={content.bad.title}
+            items={badItems}
+            icon={content.bad.icon ?? "warning"}
+            tone="danger"
+          />
+          <SignalArrow tone="danger" label="noisy input" />
+          <div className="agent-amplifier" aria-label="AI agents amplifier">
+            <PhosphorIcon icon="spark" weight="fill" />
+            <strong>AI Agents</strong>
+            <span>Amplifier</span>
+          </div>
+          <SignalArrow tone="danger" label="scaled output" />
+          <SignalCard
+            className="mistake-output"
+            title="Mistakes ×10"
+            caption="noise scales with speed"
+            icon="failure"
+            tone="danger"
+          />
+
+          <SignalCard
+            className="strong-input"
+            title={content.good.title}
+            items={goodItems}
+            icon={content.good.icon ?? "spark"}
+          />
+          <SignalArrow label="clean input" />
+          <SignalArrow label="amplified output" tone="accent" />
+          <SignalCard
+            className="leverage-output"
+            title="Leverage ×10"
+            caption="production-grade velocity"
+            icon="impact"
+            tone="accent"
+          />
+
+          <div className="feedback-loop" aria-label="Verification loop from output back to input">
+            <span>verify · constrain · test</span>
+          </div>
+        </div>
       </div>
-      {content.insight && <p className="insight">{content.insight}</p>}
+      {content.insight && <p className="insight amplifier-insight">{content.insight}</p>}
       {content.footerLink && (
         <p className="footer-link">{content.footerLink}</p>
       )}
     </>
+  );
+}
+
+function SignalCard({
+  title,
+  items,
+  caption,
+  icon,
+  tone,
+  className = "",
+}: {
+  title: string;
+  items?: string[];
+  caption?: string;
+  icon: StoryIcon;
+  tone?: "danger" | "accent";
+  className?: string;
+}) {
+  return (
+    <article className={`signal-card ${tone ?? ""} ${className}`}>
+      <PhosphorIcon icon={icon} weight="bold" />
+      <div>
+        <h2>{title}</h2>
+        {caption && <p>{caption}</p>}
+      </div>
+      {items && items.length > 0 && (
+        <div className="signal-chips">
+          {items.map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+      )}
+    </article>
+  );
+}
+
+function SignalArrow({
+  label,
+  tone,
+}: {
+  label: string;
+  tone?: "danger" | "accent";
+}) {
+  return (
+    <div className={`signal-arrow ${tone ?? ""}`} aria-label={label}>
+      <span>{label}</span>
+    </div>
   );
 }
 
